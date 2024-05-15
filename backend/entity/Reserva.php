@@ -3,14 +3,16 @@
         private $id;
         private $sala_id;
         private $turma_id;
+        private $status;
         private $data_Inicio;
         private $data_Fim;
         private $dias_Semana;
 
-        public function __construct($id, $sala_id, $turma_id, $data_Inicio, $data_Fim, $dias_Semana) {
+        public function __construct($id, $sala_id, $turma_id, $status, $data_Inicio, $data_Fim, $dias_Semana) {
             $this->id = $id;
             $this->sala_id = $sala_id;
             $this->turma_id = $turma_id;
+            $this->status = $status;
             $this->data_Inicio = $data_Inicio;
             $this->data_Fim = $data_Fim;
             $this->dias_Semana = $dias_Semana;
@@ -28,6 +30,10 @@
 
         public function getTurma_id() {
             return $this->turma_id;
+        }
+
+        public function getStatus() {
+            return $this->status;
         }
 
         public function getData_inicio() {

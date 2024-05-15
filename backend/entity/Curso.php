@@ -1,6 +1,6 @@
 <?php
 
-    Class Curso {
+    class Curso {
         private $id;
         private $nome;
         private $sigla;
