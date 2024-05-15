@@ -55,16 +55,79 @@
             }
         }
 
-        public function create($entity) {
+        public function create($turma) {
+            try {
+                $sql = "INSERT INTO turma (Id, Docente_ID, Curso_ID, Cod_Turma, Ativo) VALUES
+                (null, :docente_id, :curso_id, :cod_turma,:periodo, :ativo)";
 
+                $stmt = $this->db->prepare($sql);
+
+                // Bind parameters by reference
+                $docente_id = $turma->getDocente_id();
+                $curso_id = $turma->getCurso_id();
+                $cod_turma = $turma->getCod_turma();
+                $periodo = $turma->getPeriodo();
+                $ativo = $turma->getAtivo();
+
+                $stmt->bindParam(':docente_id', $docente_id);
+                $stmt->bindParam(':curso_id', $curso_id);
+                $stmt->bindParam(':cod_turma', $cod_turma);
+                $stmt->bindParam(':periodo', $periodo);
+                $stmt->bindParam(':ativo', $ativo);
+
+                $stmt->execute();
+
+                return "reserva cadastrada";
+            } catch (PDOException $e) {
+                return "erro";
+            }
         }
 
-        public function update($entity) {
+        public function update($turma) {
+            try{
+            $existingTurma = $this->getById($turma->getId());
+                if(!$existingTurma) {
+                    return false; // Retorna falso se o usuário não existir
+                }
+                
+                $sql = "UPDATE turma SET Docente_ID = :docente_id, Curso_ID = :curso_id, Cod_turma = :cod_turma, 
+                Periodo = :periodo, Ativo = :ativo WHERE Id = :id";
+                
 
+                $stmt = $this->db->prepare($sql);
+                // Bind parameters by reference
+                $id = $turma->getId();
+                $docente_id = $turma->getDocente_id();
+                $curso_id = $turma->getCurso_id();
+                $cod_turma = $turma->getCod_turma();
+                $periodo = $turma->getPeriodo();
+                $ativo = $turma->getAtivo();
+
+                $stmt->bindParam(':id', $id);
+                $stmt->bindParam(':docente_id', $docente_id);
+                $stmt->bindParam(':curso_id', $curso_id);
+                $stmt->bindParam(':cod_turma', $cod_turma);
+                $stmt->bindParam(':periodo', $periodo);
+                $stmt->bindParam(':ativo', $ativo);
+
+                $stmt->execute();
+
+                return true;
+            } catch (PDOException $e) {
+                return false;
+            }
         }
 
         public function delete($id) {
-
+            try {
+                $sql = "DELETE FROM turma WHERE Id = :id";
+                $stmt = $this->db->prepare($sql);
+                $stmt->bindParam(':id', $id);
+                $stmt->execute();
+           
+            } catch (PDOException $e) {
+                return false;
+            }
         }
 
     }
