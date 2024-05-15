@@ -3,9 +3,9 @@
     require_once "entity/Reserva.php";
 
     $reservaDAO = new ReservaDAO();
-    $reserva = new Reserva(null, 1, 1, "Livre", null, null, "seg/ter");
+    $reserva = new Reserva(4, 1, 1, "Livre", null, null, "seg/qua");
 
-    echo $reservaDAO->create($reserva);
+    //print_r($reservaDAO->(4));
     print_r($reservaDAO->getAll());
     // print_r($reserva);
 ?>

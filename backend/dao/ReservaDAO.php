@@ -25,8 +25,8 @@
                                 $reserva['Turma_ID'],
                                 $reserva['Status'],
                                 $reserva['Data_Inicio'],
-                                $reserva['Data_Fim'],
-                                $reserva['Dia_Semana'])
+                                $reserva['Data_FIM'],
+                                $reserva['Dias_Semana'])
                     : null;
 
             } catch (PDOException $e) {
@@ -36,7 +36,7 @@
 
         public function getAll() {
             try {
-                $sql = "SELECT * FROM grupoUsuario";
+                $sql = "SELECT * FROM reserva";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute();
 
@@ -48,13 +48,14 @@
                                         $reserva['Turma_ID'],
                                         $reserva['Status'],
                                         $reserva['Data_Inicio'],
-                                        $reserva['Data_Fim'],
-                                        $reserva['Dia_Semana']);
+                                        $reserva['Data_FIM'],
+                                        $reserva['Dias_Semana']);
                 }, $reservas);
             } catch (PDOException $e) {
                 return false;
             }
         }
+        
         public function create($reserva) {
             try {
                 $sql = "INSERT INTO reserva (Id, Sala_ID, Turma_ID, Status, Data_Inicio, Data_FIM, Dias_Semana) VALUES
@@ -87,13 +88,13 @@
 
         public function update($reserva) {
             try {
-                $existingGrupo = $this->getById($reserva->getGrupoUsuarioId());
-                if(!$existingGrupo) {
-                    return false;// Retorna falso se o usuário não existir
+                $existingReserva = $this->getById($reserva->getId());
+                if(!$existingReserva) {
+                    return false; // Retorna falso se o usuário não existir
                 }
                 
                 $sql = "UPDATE reserva SET Sala_ID = :sala_id, Turma_ID = :turma_id, Status = :status, 
-                Data_Inicio = :data_inicio, Data_Fim = :data_fim, Dias_Semana = :dias_semana
+                Data_Inicio = :data_inicio, Data_FIM = :data_fim, Dias_Semana = :dias_semana
                 WHERE Id = :id";
                 
 
@@ -113,7 +114,7 @@
                 $stmt->bindParam(':status', $status);
                 $stmt->bindParam(':data_inicio', $data_inicio);
                 $stmt->bindParam(':data_fim', $data_fim);
-                $stmt->bindParam(':diasemana', $dias_semana);
+                $stmt->bindParam(':dias_semana', $dias_semana);
 
                 $stmt->execute();
 
