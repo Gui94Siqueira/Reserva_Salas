@@ -1,9 +1,9 @@
 <?php
     require_once "config/Database.php";
     require_once "BaseDAO.php";
-    require_once "entity/Sala.php";
+    require_once "entity/Sala_tipo.php";
 
-    class Sala implements BaseDAO {
+    class Sala_tipo implements BaseDAO {
         private $db;
 
         public function __construct() {
@@ -12,18 +12,16 @@
 
         public function getById($id) {
             try {
-                $sql = "SELECT * FROM sala WHERE Id = :id";
+                $sql = "SELECT * FROM tipo_sala WHERE Id = :id";
                 $stmt = $this->db->prepare($sql);
                 $stmt->bindParam(':id', $id, PDO::PARAM_INT);
                 $stmt->execute();
 
-                $sala = $stmt->fetch(PDO::FETCH_ASSOC);
+                $sala_tipo = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                return $sala ?
-                    new Turma($sala['Id'],
-                                $sala['Tipo_ID'],
-                                $sala['Capacidade'],
-                                $sala['numero'])
+                return $sala_tipo ?
+                    new Turma($sala_tipo['Id'],
+                              $sala_tipo['Tipo'])
                     : null;
 
             } catch (PDOException $e) {
@@ -33,39 +31,33 @@
 
         public function getAll() {
             try {
-                $sql = "SELECT * FROM sala";
+                $sql = "SELECT * FROM tipo_sala";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute();
 
                 $salas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                return array_map(function ($sala) {
-                    return new Turma($sala['Id'],
-                                     $sala['Tipo_ID'],
-                                     $sala['Capacidade'],
-                                     $sala['numero']);
+                return array_map(function ($sala_tipo) {
+                    return new Turma($sala_tipo['Id'],
+                                     $sala_tipo['Tipo']);
                 }, $salas);
             } catch (PDOException $e) {
                 return false;
             }
         }
 
-        public function create($sala) {
+        public function create($sala_tipo) {
             try {
-                $sql = "INSERT INTO sala (Id, Tipo_ID, Capacidade, numero) VALUES
-                (null, :tipo, :capacidade, :numero)";
+                $sql = "INSERT INTO tipo_sala (Id, Tipo) VALUES
+                (null, :tipo)";
 
                 $stmt = $this->db->prepare($sql);
 
                 // Bind parameters by reference
-                $tipo = $sala->getNome();
-                $capacidade = $sala->getCor();
-                $numero = $sala->getCor();
+                $tipo = $sala_tipo->getTipo();
                 
 
-                $stmt->bindParam(':nome', $tipo);
-                $stmt->bindParam(':cor', $capacidade);
-                $stmt->bindParam(':cor', $numero);
+                $stmt->bindParam(':tipo', $tipo);
 
                 $stmt->execute();
 
@@ -75,27 +67,23 @@
             }
         }
 
-        public function update($sala) {
+        public function update($sala_tipo) {
             try{
-                $existingSala = $this->getById($sala->getId());
+                $existingSala = $this->getById($sala_tipo->getId());
                     if(!$existingSala) {
                         return false; // Retorna falso se o usuário não existir
                     }
                     
-                    $sql = "UPDATE sala SET Tipo_ID = :tipo_id, Capacidade = :capacidade, numero = :numero WHERE Id = :id";
+                    $sql = "UPDATE tipo_sala SET Tipo_ID = :tipo_id, Capacidade = :capacidade, numero = :numero WHERE Id = :id";
                     
     
                     $stmt = $this->db->prepare($sql);
                     // Bind parameters by reference
-                    $id = $sala->getId();
-                    $tipo = $sala->getNumero();
-                    $capacidade = $sala->getTipo();
-                    $numero = $sala->getCapacidade();
+                    $id = $sala_tipo->getId();
+                    $tipo = $sala_tipo->getTipo();
     
                     $stmt->bindParam(':id', $id);
                     $stmt->bindParam(':tipo_id', $tipo);
-                    $stmt->bindParam(':capacidade', $capacidade);
-                    $stmt->bindParam(':numero', $numero);
     
                     $stmt->execute();
     
@@ -107,7 +95,7 @@
 
         public function delete($id) {
             try {
-                $sql = "DELETE FROM sala WHERE Id = :id";
+                $sql = "DELETE FROM tipo_sala WHERE Id = :id";
                 $stmt = $this->db->prepare($sql);
                 $stmt->bindParam(':id', $id);
                 $stmt->execute();
@@ -118,4 +106,3 @@
         }
 
     }
-?>
