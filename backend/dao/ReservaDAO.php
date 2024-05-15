@@ -57,8 +57,8 @@
         }
         public function create($reserva) {
             try {
-                $sql = "INSERT INTO reserva (Sala_ID, Turma_ID, Status, Data_Inicio, Data_Fim, Dia_Semana) VALUES
-                (:sala_id, :turma_id, :status, :data_inicio, :data_fim, :diasemana)";
+                $sql = "INSERT INTO reserva (Id, Sala_ID, Turma_ID, Status, Data_Inicio, Data_FIM, Dias_Semana) VALUES
+                (null, :sala_id, :turma_id, :status, :data_inicio, :data_fim, :diasemana)";
 
                 $stmt = $this->db->prepare($sql);
 
@@ -79,9 +79,9 @@
 
                 $stmt->execute();
 
-                return true;
+                return "reserva cadastrada";
             } catch (PDOException $e) {
-                return false;
+                return "erro";
             }
         }
 
