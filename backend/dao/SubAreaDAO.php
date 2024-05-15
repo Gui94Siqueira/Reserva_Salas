@@ -48,16 +48,67 @@
             }
         }
 
-        public function create($entity) {
-            
+        public function create($subarea) {
+            try {
+                $sql = "INSERT INTO subarea (Id, Nome, Cor) VALUES
+                (null, :nome, :cor)";
+
+                $stmt = $this->db->prepare($sql);
+
+                // Bind parameters by reference
+                $nome = $subarea->getNome();
+                $cor = $subarea->getCor();
+                
+
+                $stmt->bindParam(':nome', $nome);
+                $stmt->bindParam(':cor', $cor);
+
+                $stmt->execute();
+
+                return true;
+            } catch (PDOException $e) {
+                return false;
+            }
         }
 
-        public function update($entity) {
-
+        public function update($subarea) {
+            try{
+                $existingSubarea = $this->getById($subarea->getId());
+                    if(!$existingSubarea) {
+                        return false; // Retorna falso se o usuário não existir
+                    }
+                    
+                    $sql = "UPDATE subarea SET Nome = :nome, Cor = :cor WHERE Id = :id";
+                    
+    
+                    $stmt = $this->db->prepare($sql);
+                    // Bind parameters by reference
+                    $id = $subarea->getId();
+                    $nome = $subarea->getNome();
+                    $cor = $subarea->getCor();
+    
+                    $stmt->bindParam(':id', $id);
+                    $stmt->bindParam(':nome', $nome);
+                    $stmt->bindParam(':cor', $cor);
+    
+                    $stmt->execute();
+    
+                    return true;
+                } catch (PDOException $e) {
+                    return false;
+                }
         }
 
         public function delete($id) {
-            
+            try {
+                $sql = "DELETE FROM subarea WHERE Id = :id";
+                $stmt = $this->db->prepare($sql);
+                $stmt->bindParam(':id', $id);
+                $stmt->execute();
+           
+            } catch (PDOException $e) {
+                return false;
+            }
         }
 
     }
