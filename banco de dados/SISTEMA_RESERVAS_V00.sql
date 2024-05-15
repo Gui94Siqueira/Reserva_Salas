@@ -14,6 +14,9 @@ CREATE TABLE IF NOT EXISTS sala (
     FOREIGN KEY (Tipo_ID) REFERENCES tipo_sala(Id)
 );
 
+ALTER TABLE sala
+	ADD COLUMN numero INT NOT NULL UNIQUE;
+
 CREATE TABLE IF NOT EXISTS tipo_sala(
 	Id INT AUTO_INCREMENT PRIMARY KEY,
     Tipo VARCHAR(50) NOT NULL
@@ -61,6 +64,25 @@ CREATE TABLE IF NOT EXISTS reserva (
     FOREIGN KEY (Sala_ID) REFERENCES Sala(Id)
 );
 
-DROP database reserva_sala;
+insert into turma (Id, Docente_ID, Curso_ID, Cod_Turma, Periodo, Ativo) VALUES
+	(null, 1, 1, "TII04", "Noite", null);
+    
+insert into docente (Nome) VALUES
+	("Aécio");
+    
+insert into curso (Id, Nome, Sigla, SubArea_ID) VALUES
+	(null, "Técnico em informática para internet", "TII", 1);
 
+insert into subarea (Id, Nome, Cor) VALUES
+	(null, "Técnologia", "Red");
 
+insert into sala (Id, Tipo_ID, Capacidade) VALUES
+	(null, 1, 30);
+    
+insert into tipo_sala (Id, Tipo) values
+	(null, "lab. Informática");
+    
+insert into reserva (Id, Sala_ID, Turma_ID, Status, Data_Inicio, Data_FIM, Dias_Semana) VALUES
+	(null, 1, 1, "Livre", null, null, "seg/sex");
+
+select * from reserva;

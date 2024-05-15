@@ -1,15 +1,15 @@
 <?php
     class Sala {
         private $id;
-        private $numero;
         private $tipo;
         private $capacidade;
+        private $numero;
         
-        public function __construct($id, $numero, $tipo, $capacidade) {
+        public function __construct($id, $tipo, $capacidade, $numero) {
             $this->id = $id;
-            $this->numero = $numero;
             $this->tipo = $tipo;
             $this->capacidade = $capacidade;
+            $this->numero = $numero;
         }
 
         // GETTERS
