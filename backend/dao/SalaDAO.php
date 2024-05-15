@@ -76,11 +76,45 @@
         }
 
         public function update($sala) {
-
+            try{
+                $existingSala = $this->getById($sala->getId());
+                    if(!$existingSala) {
+                        return false; // Retorna falso se o usuário não existir
+                    }
+                    
+                    $sql = "UPDATE sala SET Tipo_ID = :tipo_id, Capacidade = :capacidade, numero = :numero WHERE Id = :id";
+                    
+    
+                    $stmt = $this->db->prepare($sql);
+                    // Bind parameters by reference
+                    $id = $sala->getId();
+                    $tipo = $sala->getNumero();
+                    $capacidade = $sala->getTipo();
+                    $numero = $sala->getCapacidade();
+    
+                    $stmt->bindParam(':id', $id);
+                    $stmt->bindParam(':tipo_id', $tipo);
+                    $stmt->bindParam(':capacidade', $capacidade);
+                    $stmt->bindParam(':numero', $numero);
+    
+                    $stmt->execute();
+    
+                    return true;
+                } catch (PDOException $e) {
+                    return false;
+                }
         }
 
         public function delete($id) {
-            
+            try {
+                $sql = "DELETE FROM sala WHERE Id = :id";
+                $stmt = $this->db->prepare($sql);
+                $stmt->bindParam(':id', $id);
+                $stmt->execute();
+           
+            } catch (PDOException $e) {
+                return false;
+            }
         }
 
     }
