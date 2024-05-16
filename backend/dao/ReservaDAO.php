@@ -80,9 +80,9 @@
 
                 $stmt->execute();
 
-                return "reserva cadastrada";
+                return true;
             } catch (PDOException $e) {
-                return "erro";
+                return false;
             }
         }
 
