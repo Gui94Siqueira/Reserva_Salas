@@ -41,9 +41,9 @@
 
                 return array_map(function ($sala) {
                     return new Turma($sala['Id'],
+                                     $sala['numero'],
                                      $sala['Tipo_ID'],
-                                     $sala['Capacidade'],
-                                     $sala['numero']);
+                                     $sala['Capacidade']);
                 }, $salas);
             } catch (PDOException $e) {
                 return false;
@@ -52,20 +52,20 @@
 
         public function create($sala) {
             try {
-                $sql = "INSERT INTO sala (Id, Tipo_ID, Capacidade, numero) VALUES
+                $sql = "INSERT INTO sala (Id, Numero, Tipo_ID, Capacidade) VALUES
                 (null, :tipo, :capacidade, :numero)";
 
                 $stmt = $this->db->prepare($sql);
 
                 // Bind parameters by reference
                 $tipo = $sala->getNome();
-                $capacidade = $sala->getCor();
-                $numero = $sala->getCor();
+                $capacidade = $sala->getCapacidade();
+                $numero = $sala->getNumero();
                 
 
                 $stmt->bindParam(':nome', $tipo);
-                $stmt->bindParam(':cor', $capacidade);
-                $stmt->bindParam(':cor', $numero);
+                $stmt->bindParam(':capacidade', $capacidade);
+                $stmt->bindParam(':numero', $numero);
 
                 $stmt->execute();
 
@@ -93,9 +93,10 @@
                     $numero = $sala->getCapacidade();
     
                     $stmt->bindParam(':id', $id);
+                    $stmt->bindParam(':numero', $numero);
                     $stmt->bindParam(':tipo_id', $tipo);
                     $stmt->bindParam(':capacidade', $capacidade);
-                    $stmt->bindParam(':numero', $numero);
+                    
     
                     $stmt->execute();
     
