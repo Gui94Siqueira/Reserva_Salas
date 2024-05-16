@@ -25,8 +25,7 @@
                                 $reserva['Turma_ID'],
                                 $reserva['Status'],
                                 $reserva['Data_Inicio'],
-                                $reserva['Data_FIM'],
-                                $reserva['Dias_Semana'])
+                                $reserva['Data_FIM'])
                     : null;
 
             } catch (PDOException $e) {
@@ -48,8 +47,7 @@
                                         $reserva['Turma_ID'],
                                         $reserva['Status'],
                                         $reserva['Data_Inicio'],
-                                        $reserva['Data_FIM'],
-                                        $reserva['Dias_Semana']);
+                                        $reserva['Data_FIM']);
                 }, $reservas);
             } catch (PDOException $e) {
                 return false;
@@ -58,8 +56,8 @@
         
         public function create($reserva) {
             try {
-                $sql = "INSERT INTO reserva (Id, Sala_ID, Turma_ID, Status, Data_Inicio, Data_FIM, Dias_Semana) VALUES
-                (null, :sala_id, :turma_id, :status, :data_inicio, :data_fim, :diasemana)";
+                $sql = "INSERT INTO reserva (Id, Sala_ID, Turma_ID, Status, Data_Inicio, Data_FIM) VALUES
+                (null, :sala_id, :turma_id, :status, :data_inicio, :data_fim)";
 
                 $stmt = $this->db->prepare($sql);
 
@@ -69,14 +67,12 @@
                 $status = $reserva->getStatus();
                 $data_inicio = $reserva->getData_inicio();
                 $data_fim = $reserva->getData_fim();
-                $dias_semana = $reserva->getDias_semana();
 
                 $stmt->bindParam(':sala_id', $sala_id);
                 $stmt->bindParam(':turma_id', $turma_id);
                 $stmt->bindParam(':status', $status);
                 $stmt->bindParam(':data_inicio', $data_inicio);
                 $stmt->bindParam(':data_fim', $data_fim);
-                $stmt->bindParam(':diasemana', $dias_semana);
 
                 $stmt->execute();
 
@@ -94,7 +90,7 @@
                 }
                 
                 $sql = "UPDATE reserva SET Sala_ID = :sala_id, Turma_ID = :turma_id, Status = :status, 
-                Data_Inicio = :data_inicio, Data_FIM = :data_fim, Dias_Semana = :dias_semana
+                Data_Inicio = :data_inicio, Data_FIM = :data_fim
                 WHERE Id = :id";
                 
 
@@ -106,7 +102,6 @@
                 $status = $reserva->getStatus();
                 $data_inicio = $reserva->getData_inicio();
                 $data_fim = $reserva->getData_fim();
-                $dias_semana = $reserva->getDias_semana();
 
                 $stmt->bindParam(':id', $id);
                 $stmt->bindParam(':sala_id', $sala_id);
@@ -114,7 +109,6 @@
                 $stmt->bindParam(':status', $status);
                 $stmt->bindParam(':data_inicio', $data_inicio);
                 $stmt->bindParam(':data_fim', $data_fim);
-                $stmt->bindParam(':dias_semana', $dias_semana);
 
                 $stmt->execute();
 

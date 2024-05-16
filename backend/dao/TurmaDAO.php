@@ -3,7 +3,7 @@
     require_once "BaseDAO.php";
     require_once "entity/Turma.php";
 
-    class Turma implements BaseDAO {
+    class TurmaDAO implements BaseDAO {
         private $db;
 
         public function __construct() {
@@ -43,12 +43,11 @@
 
                 return array_map(function ($turma) {
                     return new Turma($turma['Id'],
-                                        $turma['Sala_ID'],
-                                        $turma['Turma_ID'],
-                                        $turma['Status'],
-                                        $turma['Data_Inicio'],
-                                        $turma['Data_FIM'],
-                                        $turma['Dias_Semana']);
+                                     $turma['Docente_ID'],
+                                     $turma['Curso_ID'],
+                                     $turma['Cod_Turma'],
+                                     $turma['Periodo'],
+                                     $turma['Ativo']);
                 }, $turmas);
             } catch (PDOException $e) {
                 return false;
@@ -77,9 +76,9 @@
 
                 $stmt->execute();
 
-                return "reserva cadastrada";
+                return true;
             } catch (PDOException $e) {
-                return "erro";
+                return false;
             }
         }
 

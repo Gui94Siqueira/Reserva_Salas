@@ -6,16 +6,14 @@
         private $status;
         private $data_Inicio;
         private $data_Fim;
-        private $dias_Semana;
 
-        public function __construct($id, $sala_id, $turma_id, $status, $data_Inicio, $data_Fim, $dias_Semana) {
+        public function __construct($id, $sala_id, $turma_id, $status, $data_Inicio, $data_Fim) {
             $this->id = $id;
             $this->sala_id = $sala_id;
             $this->turma_id = $turma_id;
             $this->status = $status;
             $this->data_Inicio = $data_Inicio;
             $this->data_Fim = $data_Fim;
-            $this->dias_Semana = $dias_Semana;
         }
 
         // GETTERS
@@ -42,10 +40,6 @@
 
         public function getData_fim() {
             return $this->data_Fim;
-        }
-
-        public function getDias_semana() {
-            return $this->dias_Semana;
         }
 
         // SETTERS
