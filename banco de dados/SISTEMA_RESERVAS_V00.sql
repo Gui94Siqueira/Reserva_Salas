@@ -9,17 +9,15 @@ USE reserva_sala;
 -----------------------------------------------
 CREATE TABLE IF NOT EXISTS sala (
 	Id INT AUTO_INCREMENT PRIMARY KEY,
+    Numero INT NOT NULL UNIQUE,
     Tipo_ID INT NOT NULL,
     Capacidade INT NOT NULL,
     FOREIGN KEY (Tipo_ID) REFERENCES tipo_sala(Id)
 );
 
-ALTER TABLE sala
-	ADD COLUMN numero INT NOT NULL UNIQUE;
-
 CREATE TABLE IF NOT EXISTS tipo_sala(
 	Id INT AUTO_INCREMENT PRIMARY KEY,
-    Tipo VARCHAR(50) NOT NULL
+    Tipo VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS docente (
@@ -86,3 +84,5 @@ insert into reserva (Id, Sala_ID, Turma_ID, Status, Data_Inicio, Data_FIM, Dias_
 	(null, 1, 1, "Livre", null, null, "seg/sex");
 
 select * from reserva;
+
+DROP DATABASE reserva_sala;
