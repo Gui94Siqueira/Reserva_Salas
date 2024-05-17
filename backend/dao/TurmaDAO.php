@@ -57,7 +57,7 @@
         public function create($turma) {
             try {
                 $sql = "INSERT INTO turma (Id, Docente_ID, Curso_ID, Cod_Turma, Ativo) VALUES
-                (null, :docente_id, :curso_id, :cod_turma,:periodo, :ativo)";
+                (null, :docente_id, :curso_id, :cod_turma,:periodo, null)";
 
                 $stmt = $this->db->prepare($sql);
 
@@ -66,14 +66,12 @@
                 $curso_id = $turma->getCurso_id();
                 $cod_turma = $turma->getCod_turma();
                 $periodo = $turma->getPeriodo();
-                $ativo = $turma->getAtivo();
 
                 $stmt->bindParam(':docente_id', $docente_id);
                 $stmt->bindParam(':curso_id', $curso_id);
                 $stmt->bindParam(':cod_turma', $cod_turma);
                 $stmt->bindParam(':periodo', $periodo);
-                $stmt->bindParam(':ativo', $ativo);
-
+                
                 $stmt->execute();
 
                 return true;

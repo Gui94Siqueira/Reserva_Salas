@@ -2,6 +2,7 @@
 require_once "dao/ReservaDAO.php";
 require_once "entity/Reserva.php";
 require_once "dao/TurmaDAO.php";
+require_once "dao/SalaDAO.php";
 
 //$reservaDAO = new ReservaDAO();
 $dataInicio = date("Y-m-d H:i:s");
@@ -14,16 +15,21 @@ $datafim  = date("Y-m-d H:i:s");
 
 $turmaDAO = new TurmaDAO();
 $turmas = $turmaDAO->getAll();
+$salaDAO = new SalaDAO();
+$salas = $salaDAO->getAll();
+
 $reservaDAO = new ReservaDAO();
 $reservas = $reservaDAO->getAll();
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $turmaId = $_POST['turma_id'];
+    $sala_id = $_POST['sala_id'];
+    $turma_id = $_POST['turma_id'];
+    $periodo = $_POST['periodo'];
     $dataInicio = $_POST['data_inicio'];
     $dataFim = $_POST['data_fim'];
 
-    $inserido = $reservaDAO->create($turmaId, $dataInicio, $dataFim);
+    $new_reserva = new Reserva(null, $sala_id, $turma_id, $periodo, $dataInicio, $dataFim);
+    $inserido = $reservaDAO->create($new_reserva);
     if ($inserido) {
         echo "Reserva inserida com sucesso!";
     } else {
@@ -46,6 +52,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container mt-5">
         <h1>Inserir Reserva</h1>
         <form method="POST" action="index.php">
+            
+        <div class="mb-3">
+                <label for="sala_id" class="form-label">Turma</label>
+                <select class="form-select" id="sala_id" name="sala_id" required>
+                    <?php foreach ($salas as $sala) : ?>
+                        <option value="<?php echo $sala->getId(); ?>"><?php echo $sala->getNumero(); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
             <div class="mb-3">
                 <label for="turma_id" class="form-label">Turma</label>
                 <select class="form-select" id="turma_id" name="turma_id" required>
@@ -54,9 +70,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php endforeach; ?>
                 </select>
             </div>
+
             <div class="mb-3">
-                <label for="sala_id" class="form-label">Sala Id</label>
-                <input type="number" class="form-control" id="sala_id" name="sala_id" value="<?php ?>" required>
+                <label for="periodo" class="form-label">Periodo</label>
+                <select class="form-select" id="periodo" name="periodo" required>
+                <option value="Livre">Livre</option>
+                <option value="Reservado">Reservado</option>
+                <option value="manuteção">manutenção</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label for="data_inicio" class="form-label">Data Início</label>

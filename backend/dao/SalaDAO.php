@@ -3,7 +3,7 @@
     require_once "BaseDAO.php";
     require_once "entity/Sala.php";
 
-    class Sala implements BaseDAO {
+    class SalaDAO implements BaseDAO {
         private $db;
 
         public function __construct() {
@@ -20,10 +20,10 @@
                 $sala = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 return $sala ?
-                    new Turma($sala['Id'],
-                                $sala['Tipo_ID'],
-                                $sala['Capacidade'],
-                                $sala['numero'])
+                    new Sala($sala['Id'],
+                            $sala['Tipo_ID'],
+                            $sala['Capacidade'],
+                            $sala['numero'])
                     : null;
 
             } catch (PDOException $e) {
@@ -40,8 +40,8 @@
                 $salas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 return array_map(function ($sala) {
-                    return new Turma($sala['Id'],
-                                     $sala['numero'],
+                    return new Sala($sala['Id'],
+                                     $sala['Numero'],
                                      $sala['Tipo_ID'],
                                      $sala['Capacidade']);
                 }, $salas);
