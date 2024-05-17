@@ -24,8 +24,7 @@
                                 $turma['Docente_ID'],
                                 $turma['Curso_ID'],
                                 $turma['Cod_Turma'],
-                                $turma['Periodo'],
-                                $turma['Ativo'])
+                                $turma['Periodo'])
                     : null;
 
             } catch (PDOException $e) {
@@ -59,7 +58,7 @@
             try {
 
                 $sql = "INSERT INTO turma (Docente_ID, Curso_ID, Cod_Turma, Periodo) VALUES
-                (docente_id, :curso_id, :cod_turma, :periodo)";
+                (:docente_id, :curso_id, :cod_turma, :periodo)";
 
                 $stmt = $this->db->prepare($sql);
 
