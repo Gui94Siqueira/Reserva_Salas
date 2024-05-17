@@ -37,6 +37,15 @@
             return $this->periodo;
         }
 
+        public function __toString()
+        {
+        return " $this->id
+             $this->docente_id
+             $this->curso_id
+             $this->cod_turma
+             $this->periodo";
+        }
+
 
         // SETTERS
     }

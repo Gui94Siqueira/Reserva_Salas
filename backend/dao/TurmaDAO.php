@@ -54,10 +54,12 @@
             }
         }
 
-        public function create($turma) {
+        public function create($turma) { 
+            
             try {
-                $sql = "INSERT INTO turma (Id, Docente_ID, Curso_ID, Cod_Turma, Ativo) VALUES
-                (null, :docente_id, :curso_id, :cod_turma,:periodo, null)";
+
+                $sql = "INSERT INTO turma (Docente_ID, Curso_ID, Cod_Turma, Periodo) VALUES
+                (docente_id, :curso_id, :cod_turma, :periodo)";
 
                 $stmt = $this->db->prepare($sql);
 
@@ -71,7 +73,7 @@
                 $stmt->bindParam(':curso_id', $curso_id);
                 $stmt->bindParam(':cod_turma', $cod_turma);
                 $stmt->bindParam(':periodo', $periodo);
-                
+
                 $stmt->execute();
 
                 return true;

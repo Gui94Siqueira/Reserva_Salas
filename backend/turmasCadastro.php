@@ -1,20 +1,17 @@
 <?php
 require_once "dao/DocenteDAO.php";
-require_once "entity/Reserva.php";
 require_once "dao/TurmaDAO.php";
+require_once "entity/Reserva.php";
+require_once "entity/Turma.php";
 require_once "dao/CursoDAO.php";
 
-//$reservaDAO = new ReservaDAO();
 $dataInicio = date("Y-m-d H:i:s");
 $datafim  = date("Y-m-d H:i:s");
-//$reserva = new Reserva(4, 1, 2, "Livre", $dataInicio, $datafim, "");
 
-//print_r($reservaDAO->create($reserva));
-//print_r($reservaDAO->delete(2));
-// print_r($reserva);
 
 $turmaDAO = new TurmaDAO();
 $turmas = $turmaDAO->getAll();
+// print_r($turmas);
 
 $cursoDAO = new CursoDAO();
 $cursos = $cursoDAO->getAll();
@@ -22,17 +19,18 @@ $docenteDAO = new DocenteDAO();
 $docentes = $docenteDAO->getAll();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $curso = $_POST['curso'];
     $docente = $_POST['docente'];
+    $curso = $_POST['curso'];
     $cod_turma = $_POST['cod_turma'];
     $periodo = $_POST['periodo'];
 
     $new_turma = new Turma(null, $docente, $curso, $cod_turma, $periodo);
-    $inserido = $turmaDAO->create($new_turma);
-    if ($inserido) {
-        echo "Reserva inserida com sucesso!";
+    //print_r($new_turma);
+    $inserindo = $turmaDAO->create($new_turma);
+    if ($inserindo) {
+        echo "Turma inserida com sucesso!";
     } else {
-        echo "Erro ao inserir a reserva.";
+        echo "Erro ao inserir a Turma.";
     }
 }
 ?>
@@ -51,14 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container mt-5">
         <h1>Inserir Reserva</h1>
         <form method="POST" action="turmasCadastro.php">
-            <div class="mb-3">
-                <label for="curso" class="form-label">Turma</label>
-                <select class="form-select" id="curso" name="curso" required>
-                    <?php foreach ($cursos as $curso) : ?>
-                        <option value="<?php echo $curso->getId(); ?>"><?php echo $curso->getNome(); ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
+
             <div class="mb-3">
                 <label for="docente" class="form-label">Docente</label>
                 <select class="form-select" id="docente" name="docente" required>
@@ -67,7 +58,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php endforeach; ?>
                 </select>
             </div>
-            
+            <div class="mb-3">
+                <label for="curso" class="form-label">Curso</label>
+                <select class="form-select" id="curso" name="curso" required>
+                    <?php foreach ($cursos as $curso) : ?>
+                        <option value="<?php echo $curso->getId(); ?>"><?php echo $curso->getNome(); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
             <div class="mb-3">
                 <label for="cod_turma" class="form-label">Código Turma</label>
                 <input type="text" class="form-control" placeholder="Insira o código da turma" id="cod_turma" name="cod_turma" required>
@@ -76,9 +75,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="mb-3">
                 <label for="periodo" class="form-label">Periodo</label>
                 <select class="form-select" id="periodo" name="periodo" required>
-                        <option value="Manhã">Manhã</option>
-                        <option value="Tarde">Tarde</option>
-                        <option value="Noite">Noite</option>
+                    <option value="Manhã">Manhã</option>
+                    <option value="Tarde">Tarde</option>
+                    <option value="Noite">Noite</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Inserir Reserva</button>
