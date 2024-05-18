@@ -27,28 +27,28 @@ function buscar()
 
         if ($id) {
             foreach ($reservas as $reserva) {
-                $turma = $reserva->getById($id);
+                
 
-                if ($turma) {
-                    switch ($turma->getPeriodo()) {
-                        case 'Manhâ':
-                            $manha[] = $reserva;
-                            break;
-                        case 'Tarde':
-                            $manha[] = $reserva;
-                            break;
-                        case 'Noite':
-                            $manha[] = $reserva;
-                            break;
-                    }
-                }
+                // if () {
+                //     switch ($turma->getPeriodo()) {
+                //         case 'Manhâ':
+                //             $manha[] = $reserva;
+                //             break;
+                //         case 'Tarde':
+                //             $manha[] = $reserva;
+                //             break;
+                //         case 'Noite':
+                //             $manha[] = $reserva;
+                //             break;
+                //     }
+                // }
             }
         } else {
             echo "Erro ao inserir a reserva.";
         }
     }
 
-    return $manha;
+    // return $manha;
 }
 ?>
 
@@ -64,7 +64,7 @@ function buscar()
 
 <body>
     <div class="container mt-5">
-        <h1>Inserir Reserva</h1>
+        <h1>Deletar Reserva</h1>
         <form method="POST" action="index.php">
 
             <div class="mb-3">
@@ -74,7 +74,7 @@ function buscar()
                         <input type="number" class="form-control" id="id" name="id" onblur="<?php buscar() ?>" required>
                     </div>
                     <div class="col-md-4">
-                        <h2>Manhã</h2>
+                        <h2>Reserva</h2>
                         <ul class="list-group">
                             <?php if (count($manha) > 0) : ?>
                                 <?php foreach ($manha as $reserva) : ?>
